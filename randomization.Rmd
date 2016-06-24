@@ -1,0 +1,84 @@
+---
+title: How to block and randomize
+author:
+- name: Nathaniel Higgins
+  affiliation: SBST
+- name: Jake Bowers
+  affiliation: SBST and University of Illinois
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+bibliography: references.bib
+output:
+    html_document:
+      theme: cosmo
+      toc: yes
+    pdf_document:
+      keep_tex: true
+      number_sections: true
+      fig_width: 5
+      fig_height: 5
+      fig_caption: true
+      template: bowersarticletemplate.latex
+...
+
+
+
+```{r include=FALSE, cache=FALSE}
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+# knitr settings to control how R chunks work.
+## To make the html file do
+## render("thefile.Rmd",output_format=html_document(fig_retina=FALSE))
+## To make the pdf file do
+## render("thefile.Rmd",output_format=pdf_document())
+require(knitr)
+opts_chunk$set(tidy=TRUE,echo=TRUE,results='markup',strip.white=TRUE,cache=FALSE,highlight=TRUE,width.cutoff=60,size='footnotesize',out.width='.5\\textwidth',message=FALSE,comment=NA,fig.env="figure", fig.align="center",fig.lp="fig:",fig.pos="H")
+```
+
+Before you randomize, you need to know how you want to organize the randomization, and how you plan to evaluate a better or worse randomization.
+
+# Blocking
+
+```{r}
+library(blockTools)
+```
+
+Evaluating blockings
+
+```{r}
+library(RItools)
+```
+
+# Randomizing
+
+First, we show how to do this by hand.
+
+## Complete Randomization
+
+This is the most common type of randomization because it guarantees the same numbers of observations in each treatment arm.
+
+```{r}
+
+N <- 20
+numtrts <- 2
+stopifnot( N %% numtrts == 0)
+set.seed(180046)
+Z1 <- sample(rep(seq(1,numtrts),N/numtrts))
+Z1[1:10]
+table(Z1)
+
+```
+
+Currently proposing to use the `randomizr` package
+
+```{r}
+library(randomizr)
+set.seed(180046)
+Z2 <- complete_ra(N=N,num_arms=numtrts)
+Z2[1:10]
+table(Z2)
+
+```
+
+
+
+
+# References
