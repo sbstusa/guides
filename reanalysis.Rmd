@@ -1,0 +1,73 @@
+---
+title: How to speed re-analysis
+author:
+- name: Nathaniel Higgins
+  affiliation: SBST
+- name: Jake Bowers
+  affiliation: SBST and University of Illinois
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+bibliography: references.bib
+output:
+    html_document:
+      theme: cosmo
+      toc: yes
+    pdf_document:
+      keep_tex: true
+      number_sections: true
+      fig_width: 5
+      fig_height: 5
+      fig_caption: true
+      template: bowersarticletemplate.latex
+...
+
+
+
+```{r include=FALSE, cache=FALSE}
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+# knitr settings to control how R chunks work.
+## To make the html file do
+## render("thefile.Rmd",output_format=html_document(fig_retina=FALSE))
+## To make the pdf file do
+## render("thefile.Rmd",output_format=pdf_document())
+require(knitr)
+opts_chunk$set(tidy=TRUE,echo=TRUE,results='markup',strip.white=TRUE,cache=FALSE,highlight=TRUE,width.cutoff=60,size='footnotesize',out.width='.5\\textwidth',message=FALSE,comment=NA,fig.env="figure", fig.align="center",fig.lp="fig:",fig.pos="H")
+```
+
+One of the ways the SBST ensures the quality of our work, is by ensuring that any results we report has been reproduced least one other person. In the simplest case, we ensure that another person, on a different computer, can re-run the original code and produce the same results. In more complex cases, we re-create the final analysis code (assuming that the data setup code is correct). In certain cases (mostly, our most complex cases), we try to have another person re-engineer all of the code used to clean and setup and analyze the data.^[We do not currently go through this same process at the design stage (i.e. we do not attempt to reproduce power analyses or random assignment code).]
+
+To make this process as easy and fast as possible, we here offer some advice.
+
+The general rule is that you should be able to lose your computer, download the code and data to a new computer, and re-run all analyses without cutting or pasting, going from raw data to final tables and figures. If you are working in that way, then the simple re-analyses (i.e. re-running your code by another person), will be super fast.
+
+# File structure
+
+
+
+# Data Files
+
+## Data files should be anonymized
+
+Data files should not contain personally identifying information (PII). 
+
+## A research design should be clear in the data
+
+A data file analysis reproduction should have one column for each outcome, one column for each treatment assignment, and one column for any blocking structure.  For example, a simple experiment might look like this
+
+```{r echo=FALSE}
+
+data.frame(trt=sample(rep(c(1,0),2)),outcome=rpois(4,lambda=.5),block=c(1,1,2,2))
+
+```
+
+Here is an example of a factorial experiment with two outcomes.
+
+# Code
+
+## Think in batch mode
+
+All code files should be executable from start to finish (i.e. all stata code should be able to be run with `do`, all R code should be able to be run with `source` within R). 
+
+This implies that each file should start by pulling in some relevant data file.
+
+
+# References
